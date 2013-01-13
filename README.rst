@@ -16,12 +16,24 @@ Project is still in development at 85% completion. That means it works but
 there no guarantees it won't break. Also names and options and conventions may
 change so backward compatibility is currently not guaranteed.
 
+Test Coverage
+~~~~~~~~~~~~~
+
+**Current unittest coverage stands at 91% using nose + nosexcover line coverage
+tool.**
+
+Source Code
+-----------
+
+Source code is located on GitHub: http://github.com/goodwillcoding/configme
+
 Installation
 ------------
 
 1. Clone the repo
 2. Setup a virtualenv environment
 3. python ./setup develop
+4. Run `configme --help`
 
 Usage
 -----
@@ -94,7 +106,7 @@ as well where to output the configs.
 
 The generator has dones the following
 
-1. Create a "role" folder in the output folder of `./examples/output'
+1. Create a "role" folder in the output folder of `./examples/output`
    The role folder name is the same as role name
 2. Interpolate the settings file variables into the template
 3. Write out the config files
@@ -124,18 +136,41 @@ Now run the diff command to see the difference.
 As you can see the only difference is are the variables specified in the
 specific settings file.
 
+For more options run **configme --help**
+
+.. code-block :: console
+
+    usage: configme [-h] -t TEMPLATES_PATH -s SETTINGS_PATH -o OUTPUT_PATH -r
+                    ROLE_NAME [-u ROLE_SUFFIX]
+                    [-b ROLE_VARIABLES [ROLE_VARIABLES ...]]
+
+    configme 0.4dev command line utility.
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -t TEMPLATES_PATH, --templates-path TEMPLATES_PATH
+                            Path to configuration templates folder.
+      -s SETTINGS_PATH, --settings-path SETTINGS_PATH
+                            Path to settings folder.
+      -o OUTPUT_PATH, --output-path OUTPUT_PATH
+                            Path to output folder.
+      -r ROLE_NAME, --role-name ROLE_NAME
+                            Role name.
+      -u ROLE_SUFFIX, --role-suffix ROLE_SUFFIX
+                            Role suffix.
+      -b ROLE_VARIABLES [ROLE_VARIABLES ...],
+      --role-variables ROLE_VARIABLES [ROLE_VARIABLES ...]
+                            Variables that will interpolated into the settings
+                            files.
+
+
 Support and Documentation
 -------------------------
 
 Documentation is in progress of being written and is available here: `ConfigMe documentation <http://configme.readthedocs.org/>`_.
 
-To report bugs, and obtain support please see `issue tracker <http://github.com/goodwillcoding/configme>`_
-
-Test coverage
--------------
-
-Current unittest coverage stands at 91% using nose + nosexcover line coverage
-tool.
+To report bugs, and obtain support please see `issue tracker on GitHub Issues
+<http://github.com/goodwillcoding/configme/issues>`_
 
 API
 ---
