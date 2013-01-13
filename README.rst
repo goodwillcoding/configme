@@ -1,41 +1,128 @@
-GonfigMe
-========
+The GonfigMe Config Generation Framework and Utility
+====================================================
 
 About
 -----
 
-ConfigMe is a small, fast, down-to-earth, open source Python config generation
+ConfigMe is a small, fast, down-to-earth, open source config generation
 framework and command line utility. It makes generation of real-world
 configuration files and deployment more fun, more predictable, and more
-productive.
+productive. ConfigMe is written in Python.
 
 Project Status
 --------------
 
 Project is still in development at 85% completion. That means it works but
-there no guarantees it won't break.
-
+there no guarantees it won't break. Also names and options and conventions may
+change so backward compatibility is currently not guaranteed.
 
 Installation
--------------
+------------
 
 1. Clone the repo
 2. Setup a virtualenv environment
 3. python ./setup develop
 
-Examples
---------
+Usage
+-----
 
-Generate config for "dev" and "stage" role and run diff command to see the
-difference.
+You can see examples in the ./examples folder of the project
 
-::
+Sample Configuration Template (Jinja2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    configme -t ./examples/templates/ -s ./examples/settings/ -o ./examples/output/ --role-name dev
+**Sample config**: ./examples/templates/test.conf
 
-    configme -t ./examples/templates/ -s ./examples/settings/ -o ./examples/output/ --role-name stage
+.. code-block :: jinja
 
-    diff -u ./examples/output/dev/test.conf ./examples/output/stage/test.conf
+    # this is a test config file
+
+    ConfigApp "HelloWorld"
+    AppVerion {{app_version}}
+
+Sample "dev" Config Template Settings (INI)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Configuration settings file for "dev" role.
+
+A section name for each config file that needs to be generated must be
+specified and any settings that need to be interpolated into the template. In
+our case **app_version**.
+
+**Sample config settings**: ./examples/settings/dev.settings
+
+.. code-block :: ini
+
+    [test.conf]
+
+    app_version=dev
+
+
+Sample "stage" Config Template Settings (INI)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Same as above but for "stage" role.
+
+**Sample config settings**: ./examples/settings/stage.settings
+
+.. code-block :: ini
+
+    [test.conf]
+
+    app_version=stage
+
+Generating Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generate config for "dev" and "stage" role by running `configme` utility and
+and telling it where to find the configuration templates, the settings file
+as well where to output the configs.
+
+.. code-block :: console
+
+    $ configme \
+        --templates-path=./examples/templates \
+        --settings-path=./examples/settings \
+        --output-path=./examples/output \
+        --role-name dev
+
+    $ configme \
+        --templates-path=./examples/templates \
+        --settings-path=./examples/settings \
+        --output-path=./examples/output \
+        --role-name stage
+
+The generator has dones the following
+
+1. Create a "role" folder in the output folder of `./examples/output'
+   The role folder name is the same as role name
+2. Interpolate the settings file variables into the template
+3. Write out the config files
+
+
+Now run the diff command to see the difference.
+
+.. code-block :: console
+
+    $ diff -u
+        ./examples/output/dev/test.conf \
+        ./examples/output/stage/test.conf
+
+.. code-block :: diff
+
+    --- ./examples/output/dev/test.conf 2013-01-12 15:54:01.976148562 -0800
+    +++ ./examples/output/stage/test.conf   2013-01-12 16:13:51.639879447 -0800
+    @@ -1,4 +1,4 @@
+     # this is a test config file
+
+     ConfigApp "HelloWorld"
+    -AppVerion dev
+    \ No newline at end of file
+    +AppVerion stage
+    \ No newline at end of file
+
+As you can see the only difference is are the variables specified in the
+specific settings file.
 
 Support and Documentation
 -------------------------
