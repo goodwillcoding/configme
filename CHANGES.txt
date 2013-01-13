@@ -1,0 +1,23 @@
+0.4dev
+------
+
+Currently in progress, mostly code refactor, unittest coverage, documentation.
+Move the code to github.
+
+0.3dev (2012-12-22)
+-------------------
+
+Add command line options for variable interpolation. Added .ini file
+validation. More code refactoring, also switch testing strategy to use
+dependency inversion/injection.
+
+0.2dev (2012-12-09)
+-------------------
+
+Added command line utility. Refactored code into appropriate modules. Added
+unittests to 82% coverage.
+
+0.1dev (2012-11-18)
+--------------------
+
+First pass at the tool using Jinja2 and ConfigParser.

@@ -1,0 +1,285 @@
+#!/usr/bin/env bash
+
+###############################################################################
+#
+#  Management script for a python project.
+#  Following commands are available:
+#
+#   - first_setup
+#       First time generation. this is similar to "setup" command but only
+#       is only used when "makeme" is run directly as a script.
+#       Note: Currently this is just an alias to "setup" command.
+#
+#   - setup :
+#       Generate a local 'activate' which makes "makeme" function available to
+#       the shell and sources the virtual environment.
+#       The activate file needs to be sourced using "source activate".
+#
+#   - develop :
+#       Installs python packages from setup.py using pip and setups the project
+#       package in development mode.
+#
+#   - lint :
+#       Lints code using flake8 (minus some options).
+#       Also checks for set_trace statements in the code.
+#
+#   - test :
+#       Runs test suite for the project
+#
+#   - docs :
+#       Generates documentation in docs/
+#
+###############################################################################
+
+
+# TODO: move figuring out script path code to a function
+
+# store script name
+TMP_SCRIPT_NAME=$(basename "${0}");
+
+# figure out script path and store it
+TMP_OLDPWD=$(pwd);
+cd $(dirname "${0}");
+TMP_SCRIPT_FOLDER_PATH=$(pwd);
+cd "${TMP_OLDPWD}";
+
+# ........................................................................... #
+# pip install set of requirements that can be imported as a list/tuple
+# in setup.py
+# :param ${1}: requirement set name, corresponding to the list/tuple
+#              containing package requirements in setup.py
+function _pip_install_requirements {
+
+    _is_venv;
+
+    local req_set="${1}";
+    local pycode="from setup import ${req_set};print(' '.join(${req_set}))";
+    local reqs=$(python -c "${pycode}");
+    pip install ${reqs};
+}
+
+# ........................................................................... #
+# check if the shell is in a python virtual environment
+# :exit: exits script with return code of 1 if no in virtual environment
+function _is_venv {
+    if [ "x${VIRTUAL_ENV}" == "x" ]; then
+        echo "";
+        echo "Your are not in a virtualenv environment";
+        echo "";
+        exit 1;
+    fi
+}
+
+# ........................................................................... #
+# checks .py files for presence of word "set_trace"
+# :param $@: folders to check
+# issues: MKM1
+function _run_set_trace_check {
+
+    local xargs_return_code=0;
+
+    find \
+        "$@" \
+        -iname "*.py" \
+        -type f \
+    | xargs \
+        grep \
+            --no-messages \
+            --ignore-case \
+            --line-number \
+            --only-matching \
+            "set_trace" \
+    | sed "s/set_trace$/ MKM1 'set_trace'' debug call/";
+
+    # if the pip status for the second call (xargs) is 0 then
+    # there were errors
+    xargs_return_code=${PIPESTATUS[1]};
+    if [ ${xargs_return_code} -eq 0 ]; then
+        return 1;
+    fi
+}
+
+# ........................................................................... #
+# generate an activate file
+function makeme_first_setup {
+    makeme_setup;
+}
+
+# ........................................................................... #
+# generate an activate file
+function makeme_setup {
+
+    _is_venv;
+
+    # if file already exists, clear it
+    if [ -f "${TMP_SCRIPT_FOLDER_PATH}/activate" ]; then
+        echo -n "" >| "${TMP_SCRIPT_FOLDER_PATH}/activate";
+    fi
+
+    # write the activate file
+    _write_to_activate;
+
+}
+
+# ........................................................................... #
+# install all of the requirements required for development
+function makeme_develop {
+
+    _is_venv;
+
+    _pip_install_requirements "install_requires";
+    _pip_install_requirements "testing_extras";
+    _pip_install_requirements "docs_extras";
+    /usr/bin/env python ./setup.py develop
+}
+
+# ........................................................................... #
+# generate docs
+function makeme_docs {
+
+    _is_venv;
+
+    cd "${TMP_SCRIPT_FOLDER_PATH}/docs";
+    make html;
+}
+
+# ........................................................................... #
+# run code linting
+function makeme_lint {
+
+    local fail=0;
+
+    _is_venv;
+
+    # pep8.py codes we ignore :
+    #  - E123 - visual overhangs
+    #  - E124 - visual overhangs
+    #  - E127 - visual overhangs
+    #  - E128 - visual overhangs
+
+    cd "${TMP_SCRIPT_FOLDER_PATH}";
+    flake8 \
+        --ignore=E123,E124,E127,E128 \
+        --statistics \
+        --count \
+        "./" \
+    || fail=1;
+
+    _run_set_trace_check "./" || fail=1;
+
+    return ${fail};
+
+}
+
+# ........................................................................... #
+# run tests
+function makeme_test {
+
+    _is_venv;
+
+    cd "${TMP_SCRIPT_FOLDER_PATH}";
+    /usr/bin/env python ./setup.py test;
+}
+
+# ........................................................................... #
+# run tests
+function makeme_cover {
+
+    _is_venv;
+
+    cd "${TMP_SCRIPT_FOLDER_PATH}";
+    /usr/bin/env python ./setup.py nosetests --with-xunit --with-xcoverage;
+}
+
+# ........................................................................... #
+function makeme_cleanpy {
+
+    cd "${TMP_SCRIPT_FOLDER_PATH}";
+    find . \( -type f -name "*.pyc" -o -type f -name "*.pyo" \) -exec rm {} \;
+
+}
+
+
+# ........................................................................... #
+# output given string to the activate file
+# :param $@: string to output
+function _write_to_activate {
+
+    # write, trimming space upfront
+    #sed 's/^        //'<< '    EOF' >| "${TMP_SCRIPT_FOLDER_PATH}/activate"
+    sed 's/^        //'<<____EOF >| "${TMP_SCRIPT_FOLDER_PATH}/activate"
+        #!/usr/bin/env bash
+
+        # ................................................................... #
+        # easy access to makeme
+        function me {
+            ${TMP_SCRIPT_FOLDER_PATH}/makeme "\$@";
+        }
+____EOF
+
+#     sed 's/^        //'<<'____EOF' >> "${TMP_SCRIPT_FOLDER_PATH}/activate"
+#         # ................................................................... #
+#         # nosetests bash completion configuration
+#         __ltrim_colon_completions() {
+#             # If word-to-complete contains a colon,
+#             # and bash-version < 4,
+#             # or bash-version >= 4 and COMP_WORDBREAKS contains a colon
+#             if [[
+#                 "$1" == *:* && (
+#                     ${BASH_VERSINFO[0]} -lt 4 ||
+#                     (${BASH_VERSINFO[0]} -ge 4 && "$COMP_WORDBREAKS" == *:*)
+#                 )
+#             ]]; then
+#                 # Remove colon-word prefix from COMPREPLY items
+#                 local colon_word=${1%${1##*:}}
+#                 local i=${#COMPREPLY[*]}
+#                 while [ $((--i)) -ge 0 ]; do
+#                     COMPREPLY[$i]=${COMPREPLY[$i]#"$colon_word"}
+#                 done
+#             fi
+#         } # __ltrim_colon_completions()
+
+#         # ................................................................... #
+#         # nosetests bash completion configuration
+#         _nosetests() {
+#             cur="${COMP_WORDS[COMP_CWORD]}"
+#             COMPREPLY=(`nosecomplete ${cur} 2>/dev/null`)
+#             __ltrim_colon_completions "$cur"
+#         }
+#         # install nosetest bash completion
+#         complete -o nospace -F _nosetests nosetests
+# ____EOF
+
+    sed 's/^        //'<<____EOF >> "${TMP_SCRIPT_FOLDER_PATH}/activate"
+
+        # ................................................................... #
+        # activate the virtual environment
+        source ${VIRTUAL_ENV}/bin/activate "\$@";
+____EOF
+
+}
+
+
+# ........................................................................... #
+# script entry point
+# checks for a "makeme" command and if found runs it
+function main {
+    local command_name="${1}"
+    local command_full="makeme_${command_name}";
+
+    # check if the "passed in command exist" bash function exists
+    declare -F "${command_full}" > /dev/null || \
+        {
+        echo "";
+        echo "Invalid command '${command_name}'";
+        echo "";
+        return 1;
+        };
+
+    # call appropriate function
+    ${command_full};
+}
+
+
+###############################################################################
+main "$@";
