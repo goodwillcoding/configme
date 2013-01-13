@@ -29,7 +29,7 @@ Examples
 Generate config for "dev" and "stage" role and run diff command to see the
 difference.
 
-.. code ::
+::
 
     configme -t ./examples/templates/ -s ./examples/settings/ -o ./examples/output/ --role-name dev
 
