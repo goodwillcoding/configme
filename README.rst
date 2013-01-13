@@ -5,7 +5,7 @@ About
 -----
 
 ConfigMe is a small, fast, down-to-earth, open source Python config generation
-framework and command line utility. It makes generation real-world
+framework and command line utility. It makes generation of real-world
 configuration files and deployment more fun, more predictable, and more
 productive.
 
@@ -65,6 +65,6 @@ Authors
 -------
 
 ConfigMe is produced by the
-`Goodwill Coding <http://github.com/goodwillcoding/configme>`_.
+`Goodwill Coding <http://github.com/goodwillcoding>`_.
 
 ConfigMe is developed by `Michael R`.
