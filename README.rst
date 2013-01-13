@@ -1,13 +1,13 @@
 GonfigMe
 ========
 
+About
+-----
+
 ConfigMe is a small, fast, down-to-earth, open source Python config generation
 framework and command line utility. It makes generation real-world
 configuration files and deployment more fun, more predictable, and more
 productive.
-
-ConfigMe is produced by the
-`Goodwill Coding <http://github.com/goodwillcoding/configme>`_.
 
 Project Status
 --------------
@@ -40,7 +40,7 @@ difference.
 Support and Documentation
 -------------------------
 
-Documentation is in progress of being written and will be available soon at `ConfigMe documentation <http://configme.readthedocs.org/>`_
+Documentation is in progress of being written and is available here: `ConfigMe documentation <http://configme.readthedocs.org/>`_.
 
 To report bugs, and obtain support please see `issue tracker <http://github.com/goodwillcoding/configme>`_
 
@@ -49,6 +49,11 @@ Test coverage
 
 Current unittest coverage stands at 91% using nose + nosexcover line coverage
 tool.
+
+API
+---
+
+API will be available at the later date when the implementation stabilizes.
 
 License
 -------
@@ -59,4 +64,7 @@ ConfigMe is offered under the BSD-derived `Repoze Public License
 Authors
 -------
 
-ConfigMe is made available by `Michael R`.
+ConfigMe is produced by the
+`Goodwill Coding <http://github.com/goodwillcoding/configme>`_.
+
+ConfigMe is developed by `Michael R`.
