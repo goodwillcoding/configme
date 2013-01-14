@@ -1,8 +1,14 @@
+
 .. include :: ../README.rst
 
 Indices and tables
 ==================
 
-Not yet available.
+.. toctree::
+   :hidden:
 
+   tutorial
+
+* :ref:`glossary`
+* :ref:`genindex`
 * :ref:`search`
