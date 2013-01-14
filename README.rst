@@ -13,8 +13,8 @@ Project Status
 --------------
 
 Project is still in development at 85% completion. That means it works but
-there no guarantees it won't break. Also names and options and conventions may
-change so backward compatibility is currently not guaranteed.
+there no guarantees it won't break. The names, commandline options and code
+interfaces may change so backward compatibility is currently not guaranteed.
 
 Test Coverage
 ~~~~~~~~~~~~~
