@@ -40,7 +40,7 @@ class BaseTemplateRenderer(object):
         The naming rules are:
 
          - name cannot start with a: `space` `/` `../` `./`
-         - name cannot contain: `/../` `/./` `<` `>` `:` `"` `/` `|` `?` `*`
+         - name cannot contain: `/../` `/./` `<` `>` `:` `"` `|` `?` `*`
 
     :type path: str
 
@@ -58,7 +58,7 @@ class BaseTemplateRenderer(object):
     """
 
     _FORBIDDEN_START_CHARS = (" ", "/", "../", "./")
-    _FORBIDDEN_CHARS = ("/../", "/./", "<", ">", ":", '"', "/", "|", "?", "*")
+    _FORBIDDEN_CHARS = ("/../", "/./", "<", ">", ":", '"', "|", "?", "*")
 
     __metaclass__ = ABCMeta
 
