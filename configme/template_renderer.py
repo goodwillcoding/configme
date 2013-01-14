@@ -101,12 +101,9 @@ class BaseTemplateRenderer(object):
 
         :rtype: str
         """
-        # TODO: switch to asset management
         asset_manager = self.config._asset_manager
         return asset_manager.join_path(
-            (self.role_output_folder_path,
-             asset_manager.path_filename(self.path)
-            ))
+            (self.role_output_folder_path, self.path))
 
     # ....................................................................... #
     def create_output_folder(self):
@@ -129,24 +126,21 @@ class BaseTemplateRenderer(object):
 
         asset_manager = self.config._asset_manager
 
-        config_file_folder = asset_manager.path_dirname(self.path)
-
         # if there is no folder for this config file just return the role path
-        if config_file_folder == '':
+        if asset_manager.path_dirname(self.path) == '':
             return self.role_output_folder_path
 
-        # other wise computer the entire folder and create it
-        output_folder_path = asset_manager.join_path(
-            (self.role_output_folder_path, config_file_folder))
+        # otherwise get the folder path for the output file
+        output_file_folder = asset_manager.path_dirname(self.output_file_path)
 
         # check if the asset or location already exist at this path
-        # fyi, this may araise AssetLocationTaken error
-        asset_manager.asset_or_location_exists(output_folder_path)
+        # fyi, this may raise AssetLocationTaken error
+        asset_manager.asset_or_location_exists(output_file_folder)
 
         # create folder
-        asset_manager.create_folder(output_folder_path)
+        asset_manager.create_folder(output_file_folder)
 
-        return output_folder_path
+        return output_file_folder
 
     # ....................................................................... #
     @abstractmethod
