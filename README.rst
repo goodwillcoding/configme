@@ -1,5 +1,5 @@
-The GonfigMe Config Generation Framework and Utility
-====================================================
+The GonfigMe Configuration Generation Framework and Utility
+===========================================================
 
 About
 -----
