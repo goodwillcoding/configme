@@ -188,7 +188,12 @@ function makeme_cover {
     _is_venv;
 
     cd "${TMP_SCRIPT_FOLDER_PATH}";
-    /usr/bin/env python ./setup.py nosetests --with-xunit --with-xcoverage;
+    pwd;
+    /usr/bin/env python ./setup.py nosetests;
+    # a little clean
+    rm .coverage;
+    rm configme/coverage.xml;
+    rm nosetests.xml;
 }
 
 # ........................................................................... #
