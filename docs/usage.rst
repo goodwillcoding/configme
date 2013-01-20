@@ -25,7 +25,8 @@ The template may contain variables that will be replaced by values contained in
 the role's settings file. Currently only templates are written in Jinja2
 templating language. Support for other templating languages is planned.
 
-**Role Settings** is a file in a INI format containing the sections
+**Role Settings** is a file in a INI format containing variables for each of
+the configuration files
 
 
 
