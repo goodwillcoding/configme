@@ -1,12 +1,10 @@
 
 """
-File Generator module.
+Template Renderers
 """
 
 from abc import ABCMeta
 from abc import abstractmethod
-
-from io import open as io_open
 
 from .exceptions import InvalidName
 
@@ -34,13 +32,14 @@ class BaseTemplateRenderer(object):
         must be at least marginally human readable.
 
         As such due to difficulty maintaining OS specific forbidden characters
-        set, complying with ini file specifications, and keeping readability
-        a set of forbidden characters have choosen.
+        set, complying with INI file specifications, and keeping readability
+        a set of forbidden characters have chosen.
 
         The naming rules are:
 
          - name cannot start with a: `space` `/` `../` `./`
-         - name cannot contain: `/../` `/./` `<` `>` `:` `"` `|` `?` `*`
+         - name cannot contain:
+           `/../` `/./` `<` `>` `:` `'` `"` `|` `?` `*` `\``
 
     :type path: str
 
@@ -58,7 +57,8 @@ class BaseTemplateRenderer(object):
     """
 
     _FORBIDDEN_START_CHARS = (" ", "/", "../", "./")
-    _FORBIDDEN_CHARS = ("/../", "/./", "<", ">", ":", '"', "|", "?", "*")
+    _FORBIDDEN_CHARS = \
+        ("/../", "/./", "<", ">", ":", "'", '"', "|", "?", "*", "`")
 
     __metaclass__ = ABCMeta
 
@@ -102,11 +102,11 @@ class BaseTemplateRenderer(object):
         :rtype: str
         """
         asset_manager = self.config._asset_manager
-        return asset_manager.join_path(
+        return asset_manager.path_join(
             (self.role_output_folder_path, self.path))
 
     # ....................................................................... #
-    def create_output_folder(self):
+    def write(self):
         """
         Create the output folder specified in `output_folder_path`.
         If the parents for the folder do not exist they will be created as
@@ -126,10 +126,6 @@ class BaseTemplateRenderer(object):
 
         asset_manager = self.config._asset_manager
 
-        # if there is no folder for this config file just return the role path
-        if asset_manager.path_dirname(self.path) == '':
-            return self.role_output_folder_path
-
         # otherwise get the folder path for the output file
         output_file_folder = asset_manager.path_dirname(self.output_file_path)
 
@@ -140,7 +136,11 @@ class BaseTemplateRenderer(object):
         # create folder
         asset_manager.create_folder(output_file_folder)
 
-        return output_file_folder
+        # get the rendered config
+        content = self.get_rendered_config()
+
+        # write to file
+        return asset_manager.write_to_file(self.output_file_path, content)
 
     # ....................................................................... #
     @abstractmethod
@@ -155,26 +155,7 @@ class BaseTemplateRenderer(object):
         :return: rendered template
         :rtype: str/unicode
         """
-
-        pass
-
-    # ....................................................................... #
-    def write(self, _io_open=io_open):
-        """
-        Render and output config to file at `output_file_path`.
-
-        :return: path to the the generated config file.
-        :rype: str
-        """
-
-        self.create_output_folder()
-
-        # TODO: exception handling
-        file_handler = _io_open(self.output_file_path, 'w')
-        file_handler.write(self.get_rendered_config())
-        file_handler.close()
-
-        return self.output_file_path
+        pass  # pragma: no cover
 
     # ....................................................................... #
     @classmethod

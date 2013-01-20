@@ -104,7 +104,7 @@ def dummy_asset_manager_maker():
     class DummyAssetManager(object):
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-        def join_path(self, path_parts):
+        def path_join(self, path_parts):
             return '/'.join(path_parts)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #

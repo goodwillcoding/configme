@@ -4,6 +4,7 @@
 Asset management.
 """
 
+from io import open as io_open
 
 from os import makedirs
 from os.path import basename
@@ -59,7 +60,7 @@ class AssetManager(object):
         return location
 
     # ....................................................................... #
-    def join_path(self, path_parts, _os_path_join=join):
+    def path_join(self, path_parts, _os_path_join=join):
         """
         Join and return the folder path from segments.
         """
@@ -157,3 +158,13 @@ class AssetManager(object):
             raise LocationCreationError(msg)
 
         return folder_path
+
+    # ....................................................................... #
+    def write_to_file(self, file_path, content, _io_open=io_open):
+
+        # TODO: add error handling
+        file_handler = _io_open(file_path, 'w')
+        file_handler.write(content)
+        file_handler.close()
+
+        return file_path

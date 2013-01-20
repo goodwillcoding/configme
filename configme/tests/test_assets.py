@@ -72,7 +72,7 @@ class Test_AssetManager(TestCase):
             _os_path_isdir=dummy_os_path_isdir)
 
     # ....................................................................... #
-    def test_join_path(self):
+    def test_path_join(self):
 
         test_path_parts = ('test', 'path', 'parts')
 
@@ -84,7 +84,7 @@ class Test_AssetManager(TestCase):
         asset_manager = self._makeOne()
 
         self.assertEqual(
-            asset_manager.join_path(test_path_parts,
+            asset_manager.path_join(test_path_parts,
                                     _os_path_join=dummy_os_path_join),
             desired_result)
 

@@ -33,8 +33,8 @@ class Role(object):
         must be at least marginally human readable.
 
         As such due to difficulty maintaining OS specific forbidden characters
-        set, complying with ini file specifications, and keeping readability
-        a set of forbidden characters have choosen.
+        set, complying with INI file specifications, and keeping readability
+        a set of forbidden characters have chosen.
 
         The naming rules are:
 
@@ -138,8 +138,8 @@ class Role(object):
 
         :rtype: str/unicode
         """
-        join_path = self.config._asset_manager.join_path
-        return join_path((self.config.output_path, self.suffixed_name))
+        path_join = self.config._asset_manager.path_join
+        return path_join((self.config.output_path, self.suffixed_name))
 
     # ....................................................................... #
     @property
@@ -153,9 +153,9 @@ class Role(object):
 
         :rtype: str/unicode
         """
-        join_path = self.config._asset_manager.join_path
+        path_join = self.config._asset_manager.path_join
         file_name = "%s.%s" % (self.name, self.config.settings_file_extension)
-        return join_path((self.config.settings_path, file_name))
+        return path_join((self.config.settings_path, file_name))
 
     # ....................................................................... #
     def __init__(self, config, name, suffix='', variables=None):

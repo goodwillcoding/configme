@@ -136,7 +136,8 @@ class CliRunner(object):
 
             # and write config files out
             output_list = role.write_configs()
-
+        #try:
+        #    pass
         except ConfigMeException as err:
             # handle any recognizable erros in a CLI friendly fashion
             self.logger.error("Error: %s" % err.message)
