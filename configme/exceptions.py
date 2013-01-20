@@ -52,3 +52,8 @@ class AssetCreationError(ConfigMeException):
 # --------------------------------------------------------------------------- #
 class SettingsParsingError(ConfigMeException):
     pass
+
+
+# --------------------------------------------------------------------------- #
+class TemplateRenderError(ConfigMeException):
+    pass

@@ -70,8 +70,8 @@ interfaces may change so backward compatibility is currently not guaranteed.
 Test Coverage
 -------------
 
-**Current unit-test coverage stands at 95% using nose + nosexcover line
-coverage tool.**
+**Current unit-test coverage stands at 96% with 77 tests, using nose +
+nosexcover line coverage tool.**
 
 
 Source Code

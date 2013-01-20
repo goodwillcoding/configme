@@ -154,6 +154,12 @@ class BaseTemplateRenderer(object):
 
         :return: rendered template
         :rtype: str/unicode
+
+        :raises:
+
+            :class:`TemplateRenderError` for any template look up or render
+            error.
+
         """
         pass  # pragma: no cover
 

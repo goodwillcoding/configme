@@ -149,6 +149,7 @@ class AssetManager(object):
         :rtype: str
 
         :raises:
+
             :class:`LocationCreationError` if folder could not be created.
         """
 
@@ -164,7 +165,17 @@ class AssetManager(object):
 
     # ....................................................................... #
     def write_to_file(self, file_path, content, _io_open=io_open):
+        """
+        Create file at given file path and write given content to it
 
+        :return: file path of the created file.
+        :rtype: str/unicode
+
+        :raises:
+
+            :class:`AssetCreationError` if file could not be created for some
+            reason (permssions, or any other file system or os error).
+        """
         try:
             file_handler = _io_open(file_path, 'w')
             file_handler.write(content)
