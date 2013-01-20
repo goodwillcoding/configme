@@ -7,6 +7,7 @@ Asset management.
 from io import open as io_open
 
 from os import makedirs
+
 from os.path import basename
 from os.path import dirname
 from os.path import isdir
@@ -15,10 +16,11 @@ from os.path import join
 
 from shutil import rmtree
 
-from .exceptions import LocationNotFound
-from .exceptions import LocationCreationError
-from .exceptions import LocationRemovalError
+from .exceptions import AssetCreationError
 from .exceptions import AssetLocationTaken
+from .exceptions import LocationCreationError
+from .exceptions import LocationNotFound
+from .exceptions import LocationRemovalError
 
 
 # --------------------------------------------------------------------------- #
@@ -80,7 +82,7 @@ class AssetManager(object):
         return _os_path_basename(path)
 
     # ....................................................................... #
-    def path_dirname(self, path, _os_path_dirname=dirname):
+    def path_folder(self, path, _os_path_dirname=dirname):
         """
         Return the file name portion of the given path.
 
@@ -105,7 +107,8 @@ class AssetManager(object):
         """
 
         if _os_path_isfile(path):
-            raise AssetLocationTaken('Asset or Location already exist:' % path)
+            raise AssetLocationTaken(
+                "Asset or Location already exist: %s" % path)
 
         return path
 
@@ -162,9 +165,13 @@ class AssetManager(object):
     # ....................................................................... #
     def write_to_file(self, file_path, content, _io_open=io_open):
 
-        # TODO: add error handling
-        file_handler = _io_open(file_path, 'w')
-        file_handler.write(content)
-        file_handler.close()
+        try:
+            file_handler = _io_open(file_path, 'w')
+            file_handler.write(content)
+            file_handler.close()
+        except EnvironmentError as err:
+            msg = "[Errno %d] %s: '%s'" \
+                % (err.errno, err.strerror, err.filename)
+            raise AssetCreationError(msg)
 
         return file_path

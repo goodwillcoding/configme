@@ -62,7 +62,7 @@ planned.
 Project Status
 ==============
 
-Project is still in development at 85% completion. That means it works but
+Project is still in development at 90% completion. That means it works but
 there no guarantees it won't break. The names, command-line options and code
 interfaces may change so backward compatibility is currently not guaranteed.
 
@@ -70,7 +70,7 @@ interfaces may change so backward compatibility is currently not guaranteed.
 Test Coverage
 -------------
 
-**Current unit-test coverage stands at 94% using nose + nosexcover line
+**Current unit-test coverage stands at 95% using nose + nosexcover line
 coverage tool.**
 
 

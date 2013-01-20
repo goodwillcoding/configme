@@ -93,7 +93,7 @@ class Test_BaseTemplateRender(TestCase):
             def path_join(self, path_parts):
                 return '/'.join(path_parts)
 
-            def path_dirname(self, path):
+            def path_folder(self, path):
                 return test_path_folder
 
             def asset_or_location_exists(self, path):

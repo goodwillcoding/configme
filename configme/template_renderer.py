@@ -127,7 +127,7 @@ class BaseTemplateRenderer(object):
         asset_manager = self.config._asset_manager
 
         # otherwise get the folder path for the output file
-        output_file_folder = asset_manager.path_dirname(self.output_file_path)
+        output_file_folder = asset_manager.path_folder(self.output_file_path)
 
         # check if the asset or location already exist at this path
         # fyi, this may raise AssetLocationTaken error

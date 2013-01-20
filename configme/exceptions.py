@@ -45,5 +45,10 @@ class AssetLocationTaken(ConfigMeException):
 
 
 # --------------------------------------------------------------------------- #
+class AssetCreationError(ConfigMeException):
+    pass
+
+
+# --------------------------------------------------------------------------- #
 class SettingsParsingError(ConfigMeException):
     pass
