@@ -32,11 +32,11 @@ Now lets look at a typical NginX configuration setup.
         `-- sites-available
             `-- my-site.conf
 
-However for nginx.conf production configuration we want gzipping on while
-development configuration will have it off.
+However for nginx.conf production configuration we want `gzipping on` while
+in development configuration we want `gzipping off`.
 
-Additionally we want my-site to be served on port 80 in production and port
-8080 in development.
+Additionally we want my-site to be served on `port 80` in production and `port
+8080` in development.
 
 
 Configuration Folder Skeleton
@@ -247,7 +247,7 @@ Resulting Configuration Sets
                     `-- my-site.conf
 
 
-More on Usage
-=============
+What's Next?
+============
 
-For usage see: :ref:`usage`
+Learn more about ConfigMe usage in the next section: :ref:`usage`

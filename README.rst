@@ -1,3 +1,4 @@
+===========================================================
 The GonfigMe Configuration Generation Framework and Utility
 ===========================================================
 
@@ -7,7 +8,7 @@ configuration files and deployment more fun, more predictable, and more
 productive.
 
 What problem does ConfigMe solve for you?
------------------------------------------
+=========================================
 
 Whether used in production, staging or development the majority of the
 configuration files are usually **95%** identical and it can prove time
@@ -15,11 +16,14 @@ consuming and error-prone to maintain them in sync.
 
 ConfigMe solves this problem for you.
 
-Support and Documentation
--------------------------
+What's Next?
+============
 
 Learn ConfigMe by following this tutorial:
 https://configme.readthedocs.org/en/latest/tutorial.html
+
+Support and Documentation
+=========================
 
 Read the official ConfigMe documentation here: http://configme.readthedocs.org
 
@@ -27,14 +31,14 @@ To report bugs, and obtain support please use ConfigMe issue tracker here:
 http://github.com/goodwillcoding/configme/issues
 
 License
--------
+=======
 
 ConfigMe is offered under the BSD-derived `Repoze Public License
 <http://repoze.org/license.html>`_.
 
 
 Authors
--------
+=======
 
 ConfigMe is produced by the
 `Goodwill Coding <http://github.com/goodwillcoding>`_.

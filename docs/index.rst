@@ -33,8 +33,14 @@ ConfigMe solves this problem for you.
 Whats Next?
 ===========
 
+Learn ConfigMe by following the :ref:`tutorial`
+
+
+Narrative Documentation
+=======================
+
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
     tutorial
     usage
@@ -43,24 +49,22 @@ Whats Next?
 Support and Documentation
 =========================
 
-Learn ConfigMe by following the :ref:`tutorial`
-
 Read the official ConfigMe documentation here: http://configme.readthedocs.org
 
 To report bugs, and obtain support please use ConfigMe issue tracker here:
 http://github.com/goodwillcoding/configme/issues
 
 
-About
-=====
+How it Works
+============
 
 ConfigMe is written in Python, uses Jinja2 for templates and INI files
 for settings configuration. Support for Django, Mako and other templates is
 planned.
 
 
-Project Status
-==============
+Current Project Status
+======================
 
 Project is still in development at 90% completion. That means it works but
 there no guarantees it won't break. The names, command-line options and code
