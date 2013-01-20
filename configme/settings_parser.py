@@ -32,7 +32,8 @@ class SettingsParser(object):
         self,
         file_path,
         variables=None,
-        _config_parser_factory=SafeConfigParser):
+        _config_parser_factory=SafeConfigParser
+    ):
 
         # handle mutable default for variables paramater
         if variables is None:

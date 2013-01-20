@@ -29,7 +29,8 @@ class Jinja2TemplateRenderer(BaseTemplateRenderer):
         path,
         settings,
         _jinja2_filesystem_loader_factory=FileSystemLoader,
-        _jinja2_environment_factory=Environment):
+        _jinja2_environment_factory=Environment
+    ):
 
         BaseTemplateRenderer.__init__(
             self, config, role_output_folder_path, path, settings)

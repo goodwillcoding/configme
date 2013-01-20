@@ -129,8 +129,8 @@ class Test_settings_parser(TestCase):
 
         test_settings_content = {
             'test_file':
-                {'test_setting': 'test_setting_value_with_var: %(test_var)s'}
-            }
+            {'test_setting': 'test_setting_value_with_var: %(test_var)s'}
+        }
 
         test_variables = {'test_var': 'test_var_value'}
 
@@ -158,8 +158,8 @@ class Test_settings_parser(TestCase):
 
         test_settings_content = {
             'test_file':
-                {'test_setting': 'test_setting_value_with_var: %(test_var)s'}
-            }
+            {'test_setting': 'test_setting_value_with_var: %(test_var)s'}
+        }
 
         test_variables = {}
 

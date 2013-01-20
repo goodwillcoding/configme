@@ -295,18 +295,18 @@ class Test_Role(TestCase):
 
         settings_content = {
             test_output_config_file:
-                {'test_setting': 'test_value'},
-            }
+            {'test_setting': 'test_value'},
+        }
         _settings_parser = dummy_setting_parser_maker(content=settings_content)
         _template_renderer_factory = DummyTemplateRenderer
         _asset_manager_factory = dummy_asset_manager_maker()
 
         desired_output_list = [
             '%s/%s%s/%s' %
-                (test_output_path,
-                 test_name,
-                 test_suffix,
-                 test_output_config_file)]
+            (test_output_path,
+             test_name,
+             test_suffix,
+             test_output_config_file)]
 
         config = DummyConfig(
             templates_path='/some_templates_path',
@@ -330,17 +330,18 @@ class Test_Role(TestCase):
 
         settings_content = {
             test_output_config_file:
-                {'test_setting': 'test_value_with_var: %(test_var)s'},
-            }
+            {'test_setting': 'test_value_with_var: %(test_var)s'},
+        }
+
         _settings_parser = dummy_setting_parser_maker(content=settings_content)
         _template_renderer_factory = DummyTemplateRenderer
         _asset_manager_factory = dummy_asset_manager_maker()
 
         desired_output_list = [
             '%s/%s/%s' %
-                (test_output_path,
-                 test_name,
-                 test_output_config_file)]
+            (test_output_path,
+             test_name,
+             test_output_config_file)]
 
         config = DummyConfig(
             templates_path='/some_templates_path',

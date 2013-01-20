@@ -44,7 +44,7 @@ class CliArgumentParser(ArgumentParser):
         self,
         args,
         _parse_args_method=ArgumentParser.parse_args  # for testing
-        ):
+    ):
         """
 
         Calls :class:`ArgumentParser.parse_args` with given args. raises
@@ -67,22 +67,22 @@ class CliArgumentParser(ArgumentParser):
 
         return _parse_args_method(self, args)
 
-    # ........................................................................... #
+    # ....................................................................... #
     class ArgListToDictAction(Action):
         """
         Action for argparse that converts list of 2 member tuples into a
         dictionary.
         """
 
-        # ....................................................................... #
+        # ................................................................... #
         def __init__(self, option_strings, dest, *args, **kwargs):
             Action.__init__(self, option_strings, dest, *args, **kwargs)
 
-        # ....................................................................... #
+        # ................................................................... #
         def __call__(self, parser, namespace, values, option_string=None):
             setattr(namespace, self.dest, dict(values))
 
-    # --------------------------------------------------------------------------- #
+    # ----------------------------------------------------------------------- #
     @staticmethod
     def split_argument(string):
         """
