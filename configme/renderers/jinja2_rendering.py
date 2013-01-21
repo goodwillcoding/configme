@@ -4,7 +4,7 @@
 Jinja2 Template Renderer.
 """
 
-from ..template_renderer import BaseTemplateRenderer
+from ..rendering import BaseTemplateRenderer
 
 from jinja2 import Environment
 from jinja2 import FileSystemLoader

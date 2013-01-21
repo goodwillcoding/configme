@@ -36,9 +36,7 @@ class Test_Jinja2TemplateRenderer(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ...renderers.jinja2_template_renderer import \
-            Jinja2TemplateRenderer
-
+        from ...renderers.jinja2_rendering import Jinja2TemplateRenderer
         return Jinja2TemplateRenderer(*args, **kwargs)
 
     # ....................................................................... #

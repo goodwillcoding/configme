@@ -4,7 +4,7 @@
 Test CLI initialization and configuration.
 """
 
-import unittest
+from unittest import TestCase
 
 
 # --------------------------------------------------------------------------- #
@@ -56,11 +56,11 @@ class DummyCliArgumentParser(object):
 
 
 # --------------------------------------------------------------------------- #
-class Test_cli_configured_argument_parser(unittest.TestCase):
+class Test_cli_configured_argument_parser(TestCase):
 
     # ....................................................................... #
     def _callFUT(self, *args, **kwargs):
-        from ...cli import configured_argument_parser
+        from ..cli import configured_argument_parser
         return configured_argument_parser(*args, **kwargs)
 
     # ....................................................................... #
@@ -130,35 +130,88 @@ class Test_cli_configured_argument_parser(unittest.TestCase):
 
 
 # --------------------------------------------------------------------------- #
-def dummy_clu_runner_factory(run_return=None):
+class Test_cli_logger_factory(TestCase):
 
-    class DummyCliRunner(object):
+    # ....................................................................... #
+    def setUp(self):
+        from ..compat import StringIO
+        self.out = StringIO()
+        self.err = StringIO()
+        self.name = 'test_logger_name_ultrices'
 
-        __run_return = None
+    # ....................................................................... #
+    def tearDown(self):
+        self.out.close()
+        self.err.close()
+        # super bad and ugly hack but we need clean up after the logging
+        # module
+        # logging module is a singleton and there is no "legal" way to remove
+        # a specific the "cached" logger instance.
+        # this is the illegal way. but lets just close our eyes
+        import logging
+        logging.RootLogger.manager.loggerDict.pop(self.name)
 
-        # ....................................................................#
-        def __init__(self, *args, **kwargs):
-            self.__run_return = run_return
+    # ....................................................................... #
+    def _callFUT(self):
+        from ..cli import cli_logger_factory
+        return cli_logger_factory(
+            name=self.name,
+            out=self.out,
+            err=self.err)
 
-        # ....................................................................#
-        def run(self):
-            return self.__run_return
+    # ....................................................................... #
+    def test_logging_debug_to_stdout(self):
+        test_string = "Vestibulum pharetra tortor ac turpis viverra"
+        logger_ = self._callFUT()
+        logger_.debug(test_string)
+        self.assertTrue(test_string in self.out.getvalue())
 
-    return DummyCliRunner
+    # ....................................................................... #
+    def test_logging_info_to_stdout(self):
+        test_string = "Aliquam cursus, mauris non ultrices laoreet, augue"
+        logger_ = self._callFUT()
+        logger_.info(test_string)
+        self.assertTrue(test_string in self.out.getvalue())
+
+    # ....................................................................... #
+    def test_logging_warn_to_stderr(self):
+        test_string = "Vivamus ornare mattis orci, vitae sagittis mi"
+        logger_ = self._callFUT()
+        logger_.warn(test_string)
+        self.assertTrue(test_string in self.err.getvalue())
+
+    # ....................................................................... #
+    def test_logging_error_to_stderr(self):
+        test_string = "Aliquam cursus, mauris non ultrices laoreet, augue"
+        logger_ = self._callFUT()
+        logger_.error(test_string)
+        self.assertTrue(test_string in self.err.getvalue())
+
+    # ....................................................................... #
+    def test_logging_critical_to_stderr(self):
+        test_string = "Duis lacinia, libero vitae sagittis varius"
+        logger_ = self._callFUT()
+        logger_.critical(test_string)
+        self.assertTrue(test_string in self.err.getvalue())
 
 
 # --------------------------------------------------------------------------- #
-class Test_main(unittest.TestCase):
+class Test_main(TestCase):
 
     # ....................................................................... #
     def _callFUT(self, *args, **kwargs):
-        from ...cli import main
+        from ..cli import main
         return main(*args, **kwargs)
 
     # ....................................................................... #
     def test_main(self):
 
         test_return = 'test_run_method_return'
-        dummy_cli_runner = dummy_clu_runner_factory(test_return)
 
-        self.assertEqual(self._callFUT(dummy_cli_runner), test_return)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        def dummy_cli_run(*args, **kwargs):
+            return test_return
+
+        self.assertEqual(
+            self._callFUT(_cli_run=dummy_cli_run),
+            test_return)

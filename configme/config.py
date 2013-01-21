@@ -5,8 +5,8 @@ Config Generator
 """
 
 from .assets import AssetManager
-from .settings_parser import SettingsParser
-from .renderers.jinja2_template_renderer import Jinja2TemplateRenderer
+from .settings import SettingsParser
+from .renderers.jinja2_rendering import Jinja2TemplateRenderer
 
 
 # --------------------------------------------------------------------------- #

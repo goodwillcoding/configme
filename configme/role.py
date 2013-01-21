@@ -193,6 +193,8 @@ class Role(object):
             This exception bubbled up from SettingsParser.
         """
 
+        # TODO: if error happens at generation remove the role folder
+
         # list used to record folders and files created
         output_list = []
 

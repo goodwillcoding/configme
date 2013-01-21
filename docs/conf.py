@@ -22,12 +22,12 @@
 
 # version information
 
-from ..configme.version import PACKAGE_NAME
-from ..configme.version import PACKAGE_NAME_PRETTY
-from ..configme.version import PACKAGE_VERSION
-from ..configme.version import PACKAGE_VERSION_TAG
-from ..configme.version import PACKAGE_DESC
-from ..configme.version import PACKAGE_AUTHOR
+from ..configme.package_info import PACKAGE_NAME
+from ..configme.package_info import PACKAGE_NAME_PRETTY
+from ..configme.package_info import PACKAGE_VERSION
+from ..configme.package_info import PACKAGE_VERSION_TAG
+from ..configme.package_info import PACKAGE_DESC
+from ..configme.package_info import PACKAGE_AUTHOR
 
 
 # -- General configuration ----------------------------------------------------

@@ -7,7 +7,7 @@ Argument Parser
 from argparse import Action
 from argparse import ArgumentParser
 
-from ..exceptions import ScriptArgumentError
+from .exceptions import ScriptArgumentError
 
 
 # --------------------------------------------------------------------------- #

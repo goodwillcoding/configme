@@ -87,7 +87,7 @@ class Test_settings_parser(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ..settings_parser import SettingsParser
+        from ..settings import SettingsParser
         return SettingsParser(*args, **kwargs)
 
     # ....................................................................... #

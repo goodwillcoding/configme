@@ -20,12 +20,12 @@ from setuptools import setup
 from setuptools import find_packages
 
 # name and version
-from configme.version import PACKAGE_NAME
-from configme.version import PACKAGE_VERSION_FULL
-from configme.version import PACKAGE_DESC
-from configme.version import PACKAGE_URL
-from configme.version import PACKAGE_LICENSE
-from configme.version import PACKAGE_AUTHOR
+from configme.package_info import PACKAGE_NAME
+from configme.package_info import PACKAGE_VERSION_FULL
+from configme.package_info import PACKAGE_DESC
+from configme.package_info import PACKAGE_URL
+from configme.package_info import PACKAGE_LICENSE
+from configme.package_info import PACKAGE_AUTHOR
 
 # py version detection
 py_version = sys.version_info[:2]
