@@ -12,8 +12,8 @@ What Problem Does ConfigMe Solve For You?
 =========================================
 
 Whether used in production, staging or development the majority of the
-configuration files are usually **95%** identical and it can prove time
-consuming and error-prone to maintain them in sync.
+configuration files are usually **95% to 99%** identical and it can prove
+**time consuming and error-prone** to maintain them in sync.
 
 ConfigMe solves this problem for you.
 
@@ -30,11 +30,13 @@ Support and Documentation
 
 | Read the official ConfigMe documentation here: http://configme.readthedocs.org
 
+
 | Ask for help on IRC: irc.freenode.org in #pyramid channel, mention
   "**configme**" in your question, to alert people who can help.
 | You can use the IRC WebChat here:
   `http://webchat.freenode.net/?channels=pyramid
   <http://webchat.freenode.net/?channels=pyramid&uio=d4>`_
+
 
 | To report bugs, and obtain support please use ConfigMe issue tracker here:
   http://github.com/goodwillcoding/configme/issues
