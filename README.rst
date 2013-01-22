@@ -1,5 +1,5 @@
 ===========================================================
-The GonfigMe Configuration Generation Framework and Utility
+The ConfigMe Configuration Generation Framework and Utility
 ===========================================================
 
 ConfigMe is a small, fast, down-to-earth, open source configuration generation
