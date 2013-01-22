@@ -11,7 +11,7 @@
 .. _front:
 
 ===========================================================
-The GonfigMe Configuration Generation Framework and Utility
+The ConfigMe Configuration Generation Framework and Utility
 ===========================================================
 
 
