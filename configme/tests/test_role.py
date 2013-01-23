@@ -156,15 +156,15 @@ class Test_Role(TestCase):
     def test_init_and_check_optional_initted_properties_defaults(self):
 
         config = DummyConfig()
-        desired_suffix = ''
-        desired_variables = {}
+        desired_default_suffix = ''
+        desired_default_variables = {}
 
         role = self._makeOne(
             config,
             'some_name')
 
-        self.assertEqual(role.suffix, desired_suffix)
-        self.assertDictEqual(role.variables, desired_variables)
+        self.assertEqual(role.suffix, desired_default_suffix)
+        self.assertDictEqual(role.variables, desired_default_variables)
 
     # ....................................................................... #
     def test_name_value_assignment(self):
@@ -255,7 +255,7 @@ class Test_Role(TestCase):
         self.assertEqual(role.settings_file_path, desired_settings_file_path)
 
     # ....................................................................... #
-    def test_write_configs_simple(self):
+    def test_write_configs(self):
 
         test_output_config_file = 'test/test_config.conf'
         test_name = 'test_role'
@@ -265,7 +265,8 @@ class Test_Role(TestCase):
             test_output_config_file: {'test_setting': 'test_value'},
             }
 
-        _settings_parser = dummy_setting_parser_maker(content=settings_content)
+        _settings_parser_factory = \
+            dummy_setting_parser_maker(content=settings_content)
         _template_renderer_factory = DummyTemplateRenderer
         _asset_manager_factory = dummy_asset_manager_maker()
 
@@ -277,7 +278,34 @@ class Test_Role(TestCase):
             templates_path='/some_templates_path',
             settings_path='/some_settings_path',
             output_path=test_output_path,
-            _settings_parser_factory=_settings_parser,
+            _settings_parser_factory=_settings_parser_factory,
+            _template_renderer_factory=_template_renderer_factory,
+            _asset_manager_factory=_asset_manager_factory
+            )
+
+        role = self._makeOne(config=config, name=test_name)
+        self.assertListEqual(role.write_configs(), desired_output_list)
+
+    # ....................................................................... #
+    def test_write_configs_no_files(self):
+
+        test_name = 'test_role'
+        test_output_path = '/test_output_path'
+
+        settings_content = {}
+
+        _settings_parser_factory = \
+            dummy_setting_parser_maker(content=settings_content)
+        _template_renderer_factory = DummyTemplateRenderer
+        _asset_manager_factory = dummy_asset_manager_maker()
+
+        desired_output_list = []
+
+        config = DummyConfig(
+            templates_path='/some_templates_path',
+            settings_path='/some_settings_path',
+            output_path=test_output_path,
+            _settings_parser_factory=_settings_parser_factory,
             _template_renderer_factory=_template_renderer_factory,
             _asset_manager_factory=_asset_manager_factory
             )
@@ -297,7 +325,8 @@ class Test_Role(TestCase):
             test_output_config_file:
             {'test_setting': 'test_value'},
         }
-        _settings_parser = dummy_setting_parser_maker(content=settings_content)
+        _settings_parser_factory = \
+            dummy_setting_parser_maker(content=settings_content)
         _template_renderer_factory = DummyTemplateRenderer
         _asset_manager_factory = dummy_asset_manager_maker()
 
@@ -312,7 +341,7 @@ class Test_Role(TestCase):
             templates_path='/some_templates_path',
             settings_path='/some_settings_path',
             output_path=test_output_path,
-            _settings_parser_factory=_settings_parser,
+            _settings_parser_factory=_settings_parser_factory,
             _template_renderer_factory=_template_renderer_factory,
             _asset_manager_factory=_asset_manager_factory
             )
@@ -333,7 +362,8 @@ class Test_Role(TestCase):
             {'test_setting': 'test_value_with_var: %(test_var)s'},
         }
 
-        _settings_parser = dummy_setting_parser_maker(content=settings_content)
+        _settings_parser_factory = \
+            dummy_setting_parser_maker(content=settings_content)
         _template_renderer_factory = DummyTemplateRenderer
         _asset_manager_factory = dummy_asset_manager_maker()
 
@@ -347,7 +377,7 @@ class Test_Role(TestCase):
             templates_path='/some_templates_path',
             settings_path='/some_settings_path',
             output_path=test_output_path,
-            _settings_parser_factory=_settings_parser,
+            _settings_parser_factory=_settings_parser_factory,
             _template_renderer_factory=_template_renderer_factory,
             _asset_manager_factory=_asset_manager_factory
             )

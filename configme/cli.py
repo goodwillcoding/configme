@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 # package
 
+# TODO: add a CONFIG_DEBUG=1 environmental variable and print out traceback
+#       when it is set
+
 import sys
 
 from logging import CRITICAL
@@ -141,6 +144,7 @@ def cli_run(
     logger_name,
     logger_out,
     logger_err,
+    logger_fatal=None,
     _logger_factory=cli_logger_factory,
     _configurator_factory=Configurator,
     _role_factory=Role
@@ -183,6 +187,8 @@ def cli_run(
     :param logger_err: stream to log errors to.
     :type logger_err: stream
 
+    :param logger_fatal: stream to log fatal outout to. Defaults to sys.stderr.
+    :type logger_err: stream
 
     :return:
 
@@ -195,20 +201,19 @@ def cli_run(
 
         In case of known error:
 
-        - Write out 'Error: ' followed by the error message to the error
-          file descriptor. Follow up by writing out the list of files if
-          any were generated to the out file out. Then exit with return
-          code of 1
+        - Write out 'Error: ' followed by the error message to the error file
+          descriptor. Follow up by writing out the list of files if any were
+          generated to the out file out. Then exit with return code of 1.
 
         In case of unknown error:
 
-        - write out 'Unknown Error: ' error file descriptor followed by the
+        - Write out 'Unknown Error: ' error file descriptor followed by the
           error message. and exit with return code of 2
 
         In case of not being able to setup the basic CLI logger:
 
-        - write out "Fatal: could not even setup a basic logger." to stderr
-          and exit with return code of 2
+        - write out "Fatal: could not even setup a basic logger." to
+          logger_fatal (defaults to sys.stderr) and exit with return code of 2.
 
     :rtype: int
     """
@@ -216,15 +221,20 @@ def cli_run(
     output_list = []
     return_code = 0
 
+    # mutable defaults
+    if logger_fatal is None:  # pragma: no cover
+        logger_fatal = sys.stderr
+
     # setup logging. catch everything here. Any error here and we are done
     try:
         logger = _logger_factory(
             name=logger_name,
             out=logger_out,
             err=logger_err)
-    except:
-        message = "Fatal Error: could not even setup a basic logger.\n"
-        sys.stderr.write(message)
+    except BaseException as err:
+        message = "Fatal Error: could not even setup a basic logger.\n\n\n" \
+            "More Info: %s" % err.message
+        logger_fatal.write(message)
         return 2
 
     #if True:
@@ -253,7 +263,7 @@ def cli_run(
         # handle any recognizable erros in a CLI friendly fashion
         logger.error("Error: %s" % err.message)
         return_code = 1
-    except Exception as err:
+    except BaseException as err:
         # handle any errors we do not recognize
         logger.error("Unknown Error: %s" % err.message)
         return_code = 2

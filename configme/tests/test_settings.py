@@ -11,7 +11,8 @@ from ..exceptions import SettingsParsingError
 
 
 # --------------------------------------------------------------------------- #
-def dummy_config_parser_maker(content=None, fail_read=False,
+def dummy_config_parser_maker(content=None,
+                              fail_read=False,
                               raise_read_exception_message='',
                               raise_items_exception_message='',
                               make_read_loaded_files_empty=False):
@@ -101,8 +102,35 @@ class Test_settings_parser(TestCase):
             _config_parser_factory=dummy_config_parser)
 
         self.assertEqual(settings_parser.file_path, test_file_path)
+        self.assertIsInstance(settings_parser.parser, dummy_config_parser)
 
-    # TODO: check all initted properties?
+    # ....................................................................... #
+    def test_init_and_check_optional_initted_properties_defaults(self):
+
+        test_file_path = 'test_file_path'
+        dummy_config_parser = dummy_config_parser_maker()
+
+        settings_parser = self._makeOne(
+            file_path=test_file_path,
+            _config_parser_factory=dummy_config_parser)
+
+        self.assertEqual(settings_parser.file_path, test_file_path)
+
+    # ....................................................................... #
+    def test_read_no_files(self):
+
+        test_settings_content = {}
+
+        desired_result = []
+
+        dummy_config_parser = dummy_config_parser_maker(
+            content=test_settings_content)
+
+        settings_parser = self._makeOne(
+            file_path='some_file_path',
+            _config_parser_factory=dummy_config_parser)
+
+        self.assertListEqual(settings_parser.read(), desired_result)
 
     # ....................................................................... #
     def test_read_without_variables(self):

@@ -81,9 +81,14 @@ interfaces may change so backward compatibility is currently not guaranteed.
 Test Coverage
 -------------
 
-**Current unit-test coverage stands at 96% with 77 tests, using nose +
-nosexcover line coverage tool.**
+**Current unit test stats**:
 
+================================= ====
+**Line Coverage** (nosexcover\*): 100%
+**Number of unit tests**:         84
+================================= ====
+
+\* nosexcover: http://pypi.python.org/pypi/nosexcover
 
 Source Code
 ===========

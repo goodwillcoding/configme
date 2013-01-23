@@ -6,6 +6,7 @@ Test CLI initialization and configuration.
 
 from unittest import TestCase
 
+from ..exceptions import ConfigMeException
 
 # --------------------------------------------------------------------------- #
 class DummyCliArgumentParser(object):
@@ -127,6 +128,230 @@ class Test_cli_configured_argument_parser(TestCase):
         parser = self._callFUT(_argument_parser_factory=DummyCliArgumentParser)
 
         self.assertListEqual(test_configuration, parser._arguments)
+
+
+# --------------------------------------------------------------------------- #
+class Test_cli_run(TestCase):
+
+    # ....................................................................... #
+    def setUp(self):
+        from ..compat import StringIO
+        self.logger_out = StringIO()
+        self.logger_err = StringIO()
+        self.logger_fatal = StringIO()
+
+    # ....................................................................... #
+    def tearDown(self):
+        self.logger_out.close()
+        self.logger_err.close()
+        self.logger_fatal.close()
+
+    # ....................................................................... #
+    def _callFUT(self, *args, **kwargs):
+        from ..cli import cli_run
+        return cli_run(*args, **kwargs)
+
+    # ....................................................................... #
+    def test_cli(self):
+
+        test_file1 = 'test_file1'
+        test_file2 = 'test_path2/test_file2'
+        test_output_list = [test_file1, test_file2]
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyObject(object):
+            def __init__(self, *args, **kwargs):
+                pass
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyParsedArgs(object):
+
+            templates_path = None
+            settings_path = None
+            output_path = None
+            role_name = None
+            role_suffix = None
+            role_variables = None
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyArgumentParser(object):
+
+            def __init__(self, *args, **kwargs):
+                pass
+
+            def parse(self, *args, **kwargs):
+                return DummyParsedArgs()
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyLogger(object):
+
+            logger_err = None
+
+            def __init__(self, out, *args, **kwargs):
+                self.logger_out = out
+
+            def info(self, message):
+                self.logger_out.write(message)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyRole(object):
+
+            def __init__(self, *args, **kwargs):
+                pass
+
+            def write_configs(self, *args, **kwargs):
+                return test_output_list
+
+        desired_return_code = 0
+        desired_logger_out_output = "%s%s" % (test_file1, test_file2)
+
+        return_code = self._callFUT(
+            script_args=(),
+            argument_parser=DummyArgumentParser(),
+            logger_name='some_logger_name',
+            logger_out=self.logger_out,
+            logger_err=DummyObject(),
+            logger_fatal=DummyObject(),
+            _logger_factory=DummyLogger,
+            _configurator_factory=DummyObject,
+            _role_factory=DummyRole)
+
+        logger_out_output = self.logger_out.getvalue()
+
+        self.assertEqual(return_code, desired_return_code)
+        self.assertEqual(logger_out_output, desired_logger_out_output)
+
+    # ....................................................................... #
+    def test_cli_run_fatal_exception(self):
+
+        test_error_message = 'test_error_message'
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyObject(object):
+            def __init__(self, *args, **kwargs):
+                pass
+
+        def dummy_logger_factory(*args, **kwargs):
+            raise BaseException(test_error_message)
+
+        desired_return_code = 2
+        desired_logger_fatal_output = "" \
+            "Fatal Error: could not even setup a basic logger.\n\n\n" \
+            "More Info: %s" % test_error_message
+
+        return_code = self._callFUT(
+            script_args=(),
+            argument_parser=DummyObject(),
+            logger_name='some_logger_name',
+            logger_out=DummyObject(),
+            logger_err=DummyObject(),
+            logger_fatal=self.logger_fatal,
+            _logger_factory=dummy_logger_factory,
+            _configurator_factory=DummyObject,
+            _role_factory=DummyObject)
+
+        logger_fatal_output = self.logger_fatal.getvalue()
+
+        self.assertEqual(return_code, desired_return_code)
+        self.assertEqual(logger_fatal_output, desired_logger_fatal_output)
+
+    # ....................................................................... #
+    def test_cli_run_known_exception(self):
+
+        test_error_message = 'test_error_message'
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyObject(object):
+            def __init__(self, *args, **kwargs):
+                pass
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyArgumentParser(object):
+
+            def __init__(self, *args, **kwargs):
+                pass
+
+            def parse(self, *args, **kwargs):
+                raise ConfigMeException(test_error_message)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyLogger(object):
+
+            logger_err = None
+
+            def __init__(self, err, *args, **kwargs):
+                self.logger_err = err
+
+            def error(self, message):
+                self.logger_err.write(message)
+
+        desired_return_code = 1
+        desired_logger_err_output = "Error: %s" % test_error_message
+
+        return_code = self._callFUT(
+            script_args=(),
+            argument_parser=DummyArgumentParser(),
+            logger_name='some_logger_name',
+            logger_out=DummyObject(),
+            logger_err=self.logger_err,
+            logger_fatal=DummyObject(),
+            _logger_factory=DummyLogger,
+            _configurator_factory=DummyObject,
+            _role_factory=DummyObject)
+
+        logger_err_output = self.logger_err.getvalue()
+
+        self.assertEqual(return_code, desired_return_code)
+        self.assertEqual(logger_err_output, desired_logger_err_output)
+
+    # ....................................................................... #
+    def test_cli_run_unknown_exception(self):
+
+        test_error_message = 'test_error_message'
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyObject(object):
+            def __init__(self, *args, **kwargs):
+                pass
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyArgumentParser(object):
+
+            def __init__(self, *args, **kwargs):
+                pass
+
+            def parse(self, *args, **kwargs):
+                raise BaseException(test_error_message)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyLogger(object):
+
+            logger_err = None
+
+            def __init__(self, err, *args, **kwargs):
+                self.logger_err = err
+
+            def error(self, message):
+                self.logger_err.write(message)
+
+        desired_return_code = 2
+        desired_logger_err_output = "Unknown Error: %s" % test_error_message
+
+        return_code = self._callFUT(
+            script_args=(),
+            argument_parser=DummyArgumentParser(),
+            logger_name='some_logger_name',
+            logger_out=DummyObject(),
+            logger_err=self.logger_err,
+            logger_fatal=DummyObject(),
+            _logger_factory=DummyLogger,
+            _configurator_factory=DummyObject,
+            _role_factory=DummyObject)
+
+        logger_err_output = self.logger_err.getvalue()
+
+        self.assertEqual(return_code, desired_return_code)
+        self.assertEqual(logger_err_output, desired_logger_err_output)
 
 
 # --------------------------------------------------------------------------- #

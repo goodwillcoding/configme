@@ -193,16 +193,10 @@ class Role(object):
             This exception bubbled up from SettingsParser.
         """
 
-        # TODO: if error happens at generation remove the role folder
-
         # list used to record folders and files created
         output_list = []
 
-        # create the top level folder which will contain all the configs
-        # this may raise LocationRemovalError or LocationCreationError
         asset_manager = self.config._asset_manager
-        asset_manager.remove_folder(self.output_folder_path)
-        asset_manager.create_folder(self.output_folder_path)
 
         # load and parse the settings files and return the the template
         # renderer instances generator.
@@ -211,11 +205,17 @@ class Role(object):
             file_path=self.settings_file_path,
             variables=self.variables)
 
+        # read() may raise SettingsParsingError exception
+        files = settings_parser.read()
+
+        # create the top level folder which will contain all the configs
+        # this may raise LocationRemovalError or LocationCreationError
+        asset_manager.remove_folder(self.output_folder_path)
+        asset_manager.create_folder(self.output_folder_path)
+
         # iterate over file generators, creating their parent folders and
-        # then rendering templates to file
-        # record folder and file creation
-        # fyi, .read() may raise SettingsParsingError exception
-        for relative_file_path, settings in settings_parser.read():
+        # then rendering templates to file record folder and file creation
+        for relative_file_path, settings in files:
             # create renderer
             template_renderer = self.config._template_renderer_factory(
                 self.config,

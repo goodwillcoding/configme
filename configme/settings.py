@@ -25,7 +25,7 @@ class SettingsParser(object):
     """
 
     file_path = None
-    _parser = None
+    parser = None
 
     # ....................................................................... #
     def __init__(
@@ -40,7 +40,7 @@ class SettingsParser(object):
             variables = {}
 
         self.file_path = file_path
-        self._parser = _config_parser_factory(defaults=variables)
+        self.parser = _config_parser_factory(defaults=variables)
 
     # ....................................................................... #
     def read(self):
@@ -61,7 +61,7 @@ class SettingsParser(object):
         result = []
 
         try:
-            loaded_files = self._parser.read(self.file_path)
+            loaded_files = self.parser.read(self.file_path)
         except ConfigParserError as err:
             raise SettingsParsingError(
                 'Could not parse file: %s.\n\nMore Info:\n%s'
@@ -73,8 +73,8 @@ class SettingsParser(object):
 
         try:
             # ConfigParserError may be thrown on .items() call
-            result = [(section_name, dict(self._parser.items(section_name)))
-                for section_name in self._parser.sections()]
+            result = [(section_name, dict(self.parser.items(section_name)))
+                for section_name in self.parser.sections()]
         except ConfigParserError as err:
             raise SettingsParsingError(
                 "Bad variable interpolation for file: %s\n\n%s"
