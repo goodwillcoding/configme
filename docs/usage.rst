@@ -16,9 +16,9 @@ and INI files (using Python's ConfigParser)
 Terms
 =====
 
-**Role** is a collection of configuration files generated for a specific purpose.
-An example of role names can be: `development`, `stage`, `production` or
-anything you want.
+**Role** is a collection of configuration files generated for a specific
+purpose. An example of role names can be: `development`, `stage`, `production`
+or anything you want.
 
 **Configuration Template** is file containing template for configuration file.
 The template may contain variables that will be replaced by values contained in
@@ -65,21 +65,21 @@ File Naming Conventions
 =======================
 
 ConfigMe uses INI files and Python's ConfigParsers which places some
-limitations on naming of sections in the INI files. Since these sections
-names correspond to files located on the filesystems this limitations extends
-there as well.
+limitations on naming of sections in the INI files. Since these sections names
+correspond to files located on the filesystems this limitations extends there
+as well.
 
 Role Names
 ----------
 
-The name should be have consist of characters considered valid for
-a file name on the operating system it is run on. It must also be a
-correct section name in the INI style settings file. Additionally it
-must be at least marginally human readable.
+The name should be have consist of characters considered valid for a file name
+on the operating system it is run on. It must also be a correct section name in
+the INI style `configme` settings file. Additionally it must be at least
+marginally human readable.
 
-As such due to difficulty maintaining OS specific forbidden characters
-set, complying with INI file specifications, and keeping readability
-a set of forbidden characters have chosen.
+As such due to difficulty maintaining OS specific forbidden characters set,
+complying with INI file specifications, and keeping readability a set of
+forbidden characters have chosen.
 
 The naming rules are:
 
@@ -90,14 +90,14 @@ The naming rules are:
 File Names and Paths
 --------------------
 
-The path should be have consist of characters considered valid for
-a file name on the operating system it is run on. It must also be a
-correct section name in the INI style settings file. Additionally it
-must be at least marginally human readable.
+The path should be have consist of characters considered valid for a file name
+on the operating system it is run on. It must also be a correct section name in
+the INI style settings file. Additionally it must be at least marginally human
+readable.
 
-As such due to difficulty maintaining OS specific forbidden characters
-set, complying with INI file specifications, and keeping readability
-a set of forbidden characters have chosen.
+As such due to difficulty maintaining OS specific forbidden characters set,
+complying with INI file specifications, and keeping readability a set of
+forbidden characters have chosen.
 
 The naming rules are:
 

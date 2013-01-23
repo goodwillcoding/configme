@@ -127,12 +127,12 @@ Create **etc/nginx/sites-available/my-site.conf** template
 Add **development** Role Settings
 =================================
 
-Now lets create the development.settings file and set the **gzip_status** and
+Now lets create the development.configme file and set the **gzip_status** and
 **site_port** variables to their respective development values.
 
 .. code-block :: console
 
-    $ $EDITOR /tmp/configme/settings/development.settings
+    $ $EDITOR /tmp/configme/settings/development.configme
 
 .. code-block :: ini
    :linenos:
@@ -148,7 +148,7 @@ Now lets create the development.settings file and set the **gzip_status** and
 
 .. note ::
 
-    The `development.settings` settings file uses the INI format and contains
+    The `development.configme` settings file uses the INI format and contains
     sections for each of the configuration files that development role will
     have generated. **If the file is not included in here it will not
     generated.**
@@ -157,13 +157,13 @@ Now lets create the development.settings file and set the **gzip_status** and
 Add **production** Role Settings
 ================================
 
-Now lets create the production.settings file and set the **gzip_status** and
+Now lets create the production.configme file and set the **gzip_status** and
 **site_port** variables to their respective production values.
 
 
 .. code-block :: console
 
-    $ $EDITOR /tmp/configme/settings/production.settings
+    $ $EDITOR /tmp/configme/settings/production.configme
 
 .. code-block :: ini
    :linenos:
@@ -178,7 +178,7 @@ Now lets create the production.settings file and set the **gzip_status** and
 
 .. note ::
 
-    The `production.settings` settings file uses the INI format and contains
+    The `production.configme` settings file uses the INI format and contains
     settings for the production role. As you can see the two configurations
     only differ slightly.
 
@@ -193,8 +193,8 @@ Now check the result in /tmp/configme/
     /tmp/configme/
     |-- output
     |-- settings
-    |   |-- development.settings
-    |   `-- production.settings
+    |   |-- development.configme
+    |   `-- production.configme
     `-- templates
         `-- etc
             `-- nginx

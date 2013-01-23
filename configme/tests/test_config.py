@@ -74,7 +74,7 @@ class Test_Config(unittest.TestCase):
     # ....................................................................... #
     def test_init_and_check_optional_initted_properties_defaults(self):
 
-        desired_extention = 'settings'
+        desired_extention = 'configme'
 
         dummy_asset_manager_factory = dummy_asset_manager_maker()
 

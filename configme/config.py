@@ -40,7 +40,7 @@ class Configurator(object):
 
     :param settings_path:
 
-        Path to the folder containing .settings files for roles.
+        Path to the folder containing .configme settings files for roles.
 
         :raises: :class:`LocationNotFound` if the folder does not exist.
 
@@ -58,11 +58,11 @@ class Configurator(object):
 
     :param settings_file_extension:
 
-        File extension for the role files. Defaults to 'settings'. Has to
+        File extension for the role files. Defaults to 'configme'. Has to
         conform to the operating system's file name standards.
 
-        For example a role of "alpha" woth the default settings_file_extension
-        of 'settings' would requires an 'alpha.settings' file in the
+        For example a role of "alpha" with the default settings_file_extension
+        of 'settings' would requires an 'alpha.configme' file in the
         `settings_path` folder.
 
 
@@ -119,7 +119,7 @@ class Configurator(object):
                  templates_path,
                  settings_path,
                  output_path,
-                 settings_file_extension='settings',
+                 settings_file_extension='configme',
                  _settings_parser_factory=SettingsParser,
                  _template_renderer_factory=Jinja2TemplateRenderer,
                  _asset_manager_factory=AssetManager):
