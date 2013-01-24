@@ -20,7 +20,7 @@ class Test_AllowedLevelsFilter(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ..utils import AllowedLevelsFilter
+        from ...utils import AllowedLevelsFilter
         return AllowedLevelsFilter(*args, **kwargs)
 
     # ....................................................................... #

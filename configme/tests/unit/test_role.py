@@ -4,7 +4,7 @@ import os
 
 from unittest import TestCase
 
-from ..exceptions import InvalidName
+from ...exceptions import InvalidName
 
 
 # --------------------------------------------------------------------------- #
@@ -122,7 +122,7 @@ def dummy_asset_manager_maker():
 class Test_Role(TestCase):
 
     def _makeOne(self, *args, **kwargs):
-        from ..role import Role
+        from ...role import Role
         return Role(*args, **kwargs)
 
     # ....................................................................... #
@@ -394,7 +394,7 @@ class Test_Role_validate_role_name(TestCase):
 
     # ....................................................................... #
     def _callFUT(self, *args, **kwargs):
-        from ..role import Role
+        from ...role import Role
         return Role.validate_role_name(*args, **kwargs)
 
     # ....................................................................... #

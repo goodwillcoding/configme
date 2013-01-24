@@ -7,7 +7,9 @@ Test Settings Parser
 
 from unittest import TestCase
 
-from ..exceptions import SettingsParsingError
+from ConfigParser import Error as ConfigParserError
+
+from ...exceptions import SettingsParsingError
 
 
 # --------------------------------------------------------------------------- #
@@ -48,8 +50,6 @@ def dummy_config_parser_maker(content=None,
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
         def read(self, file_path):
 
-            from ConfigParser import Error as ConfigParserError
-
             if self.__raise_read_exception_message != '':
                 raise ConfigParserError(
                     self.__raise_read_exception_message)
@@ -65,8 +65,6 @@ def dummy_config_parser_maker(content=None,
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
         def items(self, section_name):
-
-            from ConfigParser import Error as ConfigParserError
 
             result = []
 
@@ -88,7 +86,7 @@ class Test_settings_parser(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ..settings import SettingsParser
+        from ...settings import SettingsParser
         return SettingsParser(*args, **kwargs)
 
     # ....................................................................... #

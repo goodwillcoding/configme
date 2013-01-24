@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import unittest
+from unittest import TestCase
 
 
-from ..exceptions import LocationNotFound
+from ...exceptions import LocationNotFound
 
 
 # --------------------------------------------------------------------------- #
@@ -29,11 +29,11 @@ def dummy_asset_manager_maker(bad_path=None):
 
 
 # --------------------------------------------------------------------------- #
-class Test_Config(unittest.TestCase):
+class Test_Config(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ..config import Configurator
+        from ...config import Configurator
         return Configurator(*args, **kwargs)
 
     # ....................................................................... #

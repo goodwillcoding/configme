@@ -8,7 +8,7 @@ from unittest import TestCase
 
 from jinja2 import TemplateError
 
-from ...exceptions import TemplateRenderError
+from ....exceptions import TemplateRenderError
 
 
 # --------------------------------------------------------------------------- #
@@ -36,7 +36,7 @@ class Test_Jinja2TemplateRenderer(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ...renderers.jinja2_rendering import Jinja2TemplateRenderer
+        from ....renderers.jinja2_rendering import Jinja2TemplateRenderer
         return Jinja2TemplateRenderer(*args, **kwargs)
 
     # ....................................................................... #

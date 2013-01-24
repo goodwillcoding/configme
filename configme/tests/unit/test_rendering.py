@@ -6,7 +6,7 @@ Test Template Renderer-
 
 from unittest import TestCase
 
-from ..exceptions import InvalidName
+from ...exceptions import InvalidName
 
 
 # --------------------------------------------------------------------------- #
@@ -23,7 +23,7 @@ class Test_BaseTemplateRender(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ..rendering import BaseTemplateRenderer
+        from ...rendering import BaseTemplateRenderer
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
         class TestBaseTemplateRenderer(BaseTemplateRenderer):
@@ -130,7 +130,7 @@ class Test_BaseTemplateRender_validate_path(TestCase):
 
     # ....................................................................... #
     def _callFUT(self, *args, **kwargs):
-        from ..rendering import BaseTemplateRenderer
+        from ...rendering import BaseTemplateRenderer
         return BaseTemplateRenderer.validate_path(*args, **kwargs)
 
     # ....................................................................... #

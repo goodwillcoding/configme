@@ -6,13 +6,13 @@ Test asset management.
 
 from unittest import TestCase
 
-from ..compat import StringIO
+from ...compat import StringIO
 
-from ..exceptions import AssetCreationError
-from ..exceptions import AssetLocationTaken
-from ..exceptions import LocationCreationError
-from ..exceptions import LocationNotFound
-from ..exceptions import LocationRemovalError
+from ...exceptions import AssetCreationError
+from ...exceptions import AssetLocationTaken
+from ...exceptions import LocationCreationError
+from ...exceptions import LocationNotFound
+from ...exceptions import LocationRemovalError
 
 
 # --------------------------------------------------------------------------- #
@@ -33,7 +33,7 @@ class Test_AssetManager(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ..assets import AssetManager
+        from ...assets import AssetManager
         return AssetManager(*args, **kwargs)
 
     # ....................................................................... #

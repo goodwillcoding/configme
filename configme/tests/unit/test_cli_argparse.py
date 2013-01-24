@@ -4,17 +4,17 @@
 Test CLI Argument Parser
 """
 
-import unittest
+from unittest import TestCase
 
-from ..exceptions import ScriptArgumentError
+from ...exceptions import ScriptArgumentError
 
 
 # --------------------------------------------------------------------------- #
-class Test_CliArgumentParser(unittest.TestCase):
+class Test_CliArgumentParser(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ..cli_argparse import CliArgumentParser
+        from ...cli_argparse import CliArgumentParser
         return CliArgumentParser(*args, **kwargs)
 
     # ....................................................................... #
@@ -64,11 +64,11 @@ class DummyNamespace(object):
 
 
 # --------------------------------------------------------------------------- #
-class Test_CliArgumentParser_ArgListToDictAction(unittest.TestCase):
+class Test_CliArgumentParser_ArgListToDictAction(TestCase):
 
     # ....................................................................... #
     def _makeOne(self, *args, **kwargs):
-        from ..cli_argparse import CliArgumentParser
+        from ...cli_argparse import CliArgumentParser
         return CliArgumentParser.ArgListToDictAction(*args, **kwargs)
 
     # ....................................................................... #
@@ -107,11 +107,11 @@ class Test_CliArgumentParser_ArgListToDictAction(unittest.TestCase):
 
 
 # --------------------------------------------------------------------------- #
-class Test_SafeArgumentParser_split_argument(unittest.TestCase):
+class Test_SafeArgumentParser_split_argument(TestCase):
 
     # ....................................................................... #
     def _callFUT(self, test_list):
-        from ..cli_argparse import CliArgumentParser
+        from ...cli_argparse import CliArgumentParser
         parser = CliArgumentParser()
         return parser.split_argument(test_list)
 

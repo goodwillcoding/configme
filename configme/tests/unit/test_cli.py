@@ -6,7 +6,10 @@ Test CLI initialization and configuration.
 
 from unittest import TestCase
 
-from ..exceptions import ConfigMeException
+from ...compat import StringIO
+
+from ...exceptions import ConfigMeException
+
 
 # --------------------------------------------------------------------------- #
 class DummyCliArgumentParser(object):
@@ -61,7 +64,7 @@ class Test_cli_configured_argument_parser(TestCase):
 
     # ....................................................................... #
     def _callFUT(self, *args, **kwargs):
-        from ..cli import configured_argument_parser
+        from ...cli import configured_argument_parser
         return configured_argument_parser(*args, **kwargs)
 
     # ....................................................................... #
@@ -135,7 +138,6 @@ class Test_cli_run(TestCase):
 
     # ....................................................................... #
     def setUp(self):
-        from ..compat import StringIO
         self.logger_out = StringIO()
         self.logger_err = StringIO()
         self.logger_fatal = StringIO()
@@ -148,7 +150,7 @@ class Test_cli_run(TestCase):
 
     # ....................................................................... #
     def _callFUT(self, *args, **kwargs):
-        from ..cli import cli_run
+        from ...cli import cli_run
         return cli_run(*args, **kwargs)
 
     # ....................................................................... #
@@ -359,7 +361,6 @@ class Test_cli_logger_factory(TestCase):
 
     # ....................................................................... #
     def setUp(self):
-        from ..compat import StringIO
         self.out = StringIO()
         self.err = StringIO()
         self.name = 'test_logger_name_ultrices'
@@ -378,7 +379,7 @@ class Test_cli_logger_factory(TestCase):
 
     # ....................................................................... #
     def _callFUT(self):
-        from ..cli import cli_logger_factory
+        from ...cli import cli_logger_factory
         return cli_logger_factory(
             name=self.name,
             out=self.out,
@@ -425,7 +426,7 @@ class Test_main(TestCase):
 
     # ....................................................................... #
     def _callFUT(self, *args, **kwargs):
-        from ..cli import main
+        from ...cli import main
         return main(*args, **kwargs)
 
     # ....................................................................... #
