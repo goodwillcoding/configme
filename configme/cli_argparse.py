@@ -8,6 +8,7 @@ from argparse import Action
 from argparse import ArgumentParser
 
 from .exceptions import ScriptArgumentError
+from .exceptions import ScriptHelpArgumentError
 
 
 # --------------------------------------------------------------------------- #
@@ -40,11 +41,10 @@ class CliArgumentParser(ArgumentParser):
         pass
 
     # ....................................................................... #
-    def parse(
-        self,
-        args,
-        _parse_args_method=ArgumentParser.parse_args  # for testing
-    ):
+    def parse(self,
+              args,
+              _parse_args_method=ArgumentParser.parse_args,
+              _format_help_method=ArgumentParser.format_help):
         """
 
         Calls :class:`ArgumentParser.parse_args` with given args. raises
@@ -62,10 +62,17 @@ class CliArgumentParser(ArgumentParser):
 
         # default to printing help if no arguments were specified
         if len(args) == 0:
-            raise ScriptArgumentError(
-                "No script arguments specified\n\n%s" % self.format_help())
+            raise ScriptArgumentError("No script arguments specified\n\n%s"
+                % _format_help_method(self))
 
-        return _parse_args_method(self, args)
+        # argparse thrwos an error if -h/--help is specified but none of the
+        # required arguments have. so lets detect if either "-h" or "--help"
+        # is in the arguments and raise a
+        if set(('--help', '-h')).intersection(set(args)):
+            raise ScriptHelpArgumentError(_format_help_method(self))
+
+        result = _parse_args_method(self, args)
+        return result
 
     # ....................................................................... #
     class ArgListToDictAction(Action):

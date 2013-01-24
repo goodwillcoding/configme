@@ -7,6 +7,7 @@ Test CLI Argument Parser
 from unittest import TestCase
 
 from ...exceptions import ScriptArgumentError
+from ...exceptions import ScriptHelpArgumentError
 
 
 # --------------------------------------------------------------------------- #
@@ -50,12 +51,81 @@ class Test_CliArgumentParser(TestCase):
             test_return)
 
     # ....................................................................... #
-    def test_parse_no_args_exception(self):
+    def test_parse_no_arguments_specified_exception(self):
 
         test_args = []
+        test_error_message = 'test_error_message'
+
+        def dummy_format_help(*args, **kwargs):
+            return test_error_message
+
+        desired_error_message = "No script arguments specified\n\n%s" \
+            % test_error_message
 
         parser = self._makeOne()
-        self.assertRaises(ScriptArgumentError, parser.parse, test_args)
+        self.assertRaisesRegexp(
+            ScriptArgumentError,
+            desired_error_message,
+            parser.parse,
+            args=test_args,
+            _format_help_method=dummy_format_help)
+
+    # ....................................................................... #
+    def test_parse_help_argument_short_form_exception(self):
+
+        test_args = ['-h']
+        test_error_message = 'test_error_message'
+
+        def dummy_format_help(*args, **kwargs):
+            return test_error_message
+
+        desired_error_message = test_error_message
+
+        parser = self._makeOne()
+        self.assertRaisesRegexp(
+            ScriptHelpArgumentError,
+            desired_error_message,
+            parser.parse,
+            args=test_args,
+            _format_help_method=dummy_format_help)
+
+    # ....................................................................... #
+    def test_parse_help_argument_long_form_exception(self):
+
+        test_args = ['-h']
+        test_error_message = 'test_error_message'
+
+        def dummy_format_help(*args, **kwargs):
+            return test_error_message
+
+        desired_error_message = test_error_message
+
+        parser = self._makeOne()
+        self.assertRaisesRegexp(
+            ScriptHelpArgumentError,
+            desired_error_message,
+            parser.parse,
+            args=test_args,
+            _format_help_method=dummy_format_help)
+
+    # ....................................................................... #
+    def test_parse_help_argument_short_and_long_form_exception(self):
+
+        test_args = ['-h', '--help']
+        test_error_message = 'test_error_message'
+
+        def dummy_format_help(*args, **kwargs):
+            return test_error_message
+
+        desired_error_message = test_error_message
+
+        parser = self._makeOne()
+        self.assertRaisesRegexp(
+            ScriptHelpArgumentError,
+            desired_error_message,
+            parser.parse,
+            args=test_args,
+            _format_help_method=dummy_format_help)
 
 
 # --------------------------------------------------------------------------- #

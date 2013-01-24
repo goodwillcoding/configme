@@ -17,9 +17,11 @@ from logging import StreamHandler
 
 from .cli_argparse import CliArgumentParser
 from .config import Configurator
-from .exceptions import ConfigMeException
 from .role import Role
 from .utils import AllowedLevelsFilter
+
+from .exceptions import ConfigMeException
+from .exceptions import ScriptHelpArgumentError
 
 from .package_info import PACKAGE_NAME
 from .package_info import PACKAGE_VERSION_FULL
@@ -192,28 +194,43 @@ def cli_run(
 
     :return:
 
-        In case of success:
+        In case of ScriptHelpArgumentError which is raised when "-h" and/or
+        "--help" is specified in the script arguments:
 
-        - Write out list files generated files, one file per line.
-          The path of the file is relative to the given --output-path
+        - Write out help to logger.info
 
         - return 0
 
-        In case of known error:
+        In case of success:
+
+        - Write out list files generated files, one file per line to
+          logger.info. The path of the file is relative to the given
+          --output-path
+
+        - return 0
+
+        In case of known errors
+        (all ConfigMeException, except ScriptHelpArgumentError):
 
         - Write out 'Error: ' followed by the error message to the error file
           descriptor. Follow up by writing out the list of files if any were
-          generated to the out file out. Then exit with return code of 1.
+          generated to the out file out.
+
+        - return 1
 
         In case of unknown error:
 
         - Write out 'Unknown Error: ' error file descriptor followed by the
-          error message. and exit with return code of 2
+          error message.
+
+        - return 2
 
         In case of not being able to setup the basic CLI logger:
 
         - write out "Fatal: could not even setup a basic logger." to
-          logger_fatal (defaults to sys.stderr) and exit with return code of 2.
+          logger_fatal (defaults to sys.stderr).
+
+        - return 2
 
     :rtype: int
     """
@@ -259,6 +276,9 @@ def cli_run(
         output_list = role.write_configs()
     #try:
     #    pass
+    except ScriptHelpArgumentError as err:
+        logger.info(err.message)
+        return_code = 0
     except ConfigMeException as err:
         # handle any recognizable erros in a CLI friendly fashion
         logger.error("Error: %s" % err.message)

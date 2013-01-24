@@ -20,6 +20,11 @@ class ScriptArgumentError(ConfigMeException):
 
 
 # --------------------------------------------------------------------------- #
+class ScriptHelpArgumentError(ConfigMeException):
+    pass
+
+
+# --------------------------------------------------------------------------- #
 class LocationNotFound(ConfigMeException):
     pass
 

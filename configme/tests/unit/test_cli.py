@@ -9,6 +9,7 @@ from unittest import TestCase
 from ...compat import StringIO
 
 from ...exceptions import ConfigMeException
+from ...exceptions import ScriptHelpArgumentError
 
 
 # --------------------------------------------------------------------------- #
@@ -256,6 +257,56 @@ class Test_cli_run(TestCase):
 
         self.assertEqual(return_code, desired_return_code)
         self.assertEqual(logger_fatal_output, desired_logger_fatal_output)
+
+    # ....................................................................... #
+    def test_cli_run_help_argument_exception(self):
+
+        # fyi, this message prints to logger.info (which is out not err)
+        test_error_message = 'test_error_message'
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyObject(object):
+            def __init__(self, *args, **kwargs):
+                pass
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyArgumentParser(object):
+
+            def __init__(self, *args, **kwargs):
+                pass
+
+            def parse(self, *args, **kwargs):
+                raise ScriptHelpArgumentError(test_error_message)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+        class DummyLogger(object):
+
+            logger_out = None
+
+            def __init__(self, out, *args, **kwargs):
+                self.logger_out = out
+
+            def info(self, message):
+                self.logger_out.write(message)
+
+        desired_return_code = 0
+        desired_logger_out_output = test_error_message
+
+        return_code = self._callFUT(
+            script_args=(),
+            argument_parser=DummyArgumentParser(),
+            logger_name='some_logger_name',
+            logger_out=self.logger_out,
+            logger_err=DummyObject(),
+            logger_fatal=DummyObject(),
+            _logger_factory=DummyLogger,
+            _configurator_factory=DummyObject,
+            _role_factory=DummyObject)
+
+        logger_out_output = self.logger_out.getvalue()
+
+        self.assertEqual(return_code, desired_return_code)
+        self.assertEqual(logger_out_output, desired_logger_out_output)
 
     # ....................................................................... #
     def test_cli_run_known_exception(self):

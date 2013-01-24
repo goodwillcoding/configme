@@ -81,14 +81,7 @@ interfaces may change so backward compatibility is currently not guaranteed.
 Test Coverage
 -------------
 
-**Current unit test stats**:
-
-================================= ====
-**Line Coverage** (nosexcover\*): 100%
-**Number of unit tests**:         84
-================================= ====
-
-\* nosexcover: http://pypi.python.org/pypi/nosexcover
+.. include :: tests_status.rst
 
 Source Code
 ===========
@@ -123,3 +116,9 @@ Indices and tables
 * :ref:`glossary`
 * :ref:`genindex`
 * :ref:`search`
+
+
+.. toctree::
+    :hidden:
+
+    tests_status
