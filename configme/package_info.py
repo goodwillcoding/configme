@@ -2,7 +2,7 @@
 
 PACKAGE_NAME = u"configme"  # pragma: no cover
 PACKAGE_NAME_PRETTY = u"ConfigMe"  # pragma: no cover
-PACKAGE_VERSION = u"0.4"  # pragma: no cover
+PACKAGE_VERSION = u"0.5"  # pragma: no cover
 PACKAGE_VERSION_TAG = u"dev"  # pragma: no cover
 PACKAGE_VERSION_FULL = u"%s%s" % \
     (PACKAGE_VERSION, PACKAGE_VERSION_TAG)  # pragma: no cover
