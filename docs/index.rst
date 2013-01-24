@@ -1,12 +1,12 @@
 .. index::
-    single: About
-    single: Project Status
-    single: Support and Documentation
-    single: Bugs
-    single: Source Code
-    single: API
-    single: License
-    single: Authors
+   single: About
+   single: Project Status
+   single: Support and Documentation
+   single: Bugs
+   single: Source Code
+   single: API
+   single: License
+   single: Authors
 
 .. _front:
 
@@ -41,10 +41,10 @@ Narrative Documentation
 =======================
 
 .. toctree::
-    :maxdepth: 2
+   :maxdepth: 2
 
-    tutorial
-    usage
+   tutorial
+   usage
 
 
 Support and Documentation
@@ -119,6 +119,6 @@ Indices and tables
 
 
 .. toctree::
-    :hidden:
+   :hidden:
 
-    tests_status
+   tests_status
